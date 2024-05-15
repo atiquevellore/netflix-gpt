@@ -10,6 +10,7 @@ const Login = () => {
 	const Email = useRef(null);
 	const Password = useRef(null);
 	const toggleSignInForm = () => {
+		SetErrorMessage(null);
 		SetIsSign(!isSign);
 	};
 
@@ -21,8 +22,8 @@ const Login = () => {
 					Email.current.value,
 					Password.current.value
 			  );
-		console.log("message", message);
 		SetErrorMessage(message);
+		if (errorMessage) return;
 	};
 	return (
 		<>
