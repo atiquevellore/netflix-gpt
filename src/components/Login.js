@@ -1,6 +1,11 @@
 import React, { useState, useRef } from "react";
 import Header from "./Header";
 import { FieldValidation } from "../utils/validate";
+import {
+	createUserWithEmailAndPassword,
+	signInWithEmailAndPassword,
+} from "firebase/auth";
+import { auth } from "../utils/firebase";
 
 const Login = () => {
 	const [isSign, SetIsSign] = useState(true);
@@ -24,6 +29,34 @@ const Login = () => {
 			  );
 		SetErrorMessage(message);
 		if (errorMessage) return;
+
+		if (!isSign) {
+			createUserWithEmailAndPassword(
+				auth,
+				Email.current.value,
+				Password.current.value
+			)
+				.then((userCreditionals) => {
+					const user = userCreditionals.user;
+					console.log(user);
+				})
+				.catch((error) => {
+					SetErrorMessage(error.message);
+				});
+		} else {
+			signInWithEmailAndPassword(
+				auth,
+				Email.current.value,
+				Password.current.value
+			)
+				.then((userCreditional) => {
+					const user = userCreditional.user;
+					console.log(user);
+				})
+				.catch((error) => {
+					SetErrorMessage(error.message);
+				});
+		}
 	};
 	return (
 		<>
