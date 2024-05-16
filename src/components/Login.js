@@ -4,12 +4,15 @@ import { FieldValidation } from "../utils/validate";
 import {
 	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
+	updateProfile,
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
 	const [isSign, SetIsSign] = useState(true);
 	const [errorMessage, SetErrorMessage] = useState(null);
+	const navigate = useNavigate();
 
 	const FullName = useRef(null);
 	const Email = useRef(null);
@@ -36,9 +39,15 @@ const Login = () => {
 				Email.current.value,
 				Password.current.value
 			)
-				.then((userCreditionals) => {
-					const user = userCreditionals.user;
-					console.log(user);
+				.then(() => {
+					updateProfile(auth.currentUser, {
+						displayName: FullName.current.value,
+						photoURL: "https://picsum.photos/200/300",
+					})
+						.then(() => {
+							navigate("/browse");
+						})
+						.catch((error) => {});
 				})
 				.catch((error) => {
 					SetErrorMessage(error.message);
@@ -52,6 +61,7 @@ const Login = () => {
 				.then((userCreditional) => {
 					const user = userCreditional.user;
 					console.log(user);
+					navigate("/browse");
 				})
 				.catch((error) => {
 					SetErrorMessage(error.message);
