@@ -9,9 +9,9 @@ import { addUser, removeUser } from "../store/userSlice";
 const Header = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
+
 	useEffect(() => {
-		onAuthStateChanged(auth, (user) => {
-			console.log("current user :", auth.currentUser);
+		const unSubscribe = onAuthStateChanged(auth, (user) => {
 			if (user) {
 				const { uid, email, displayName, photoURL } = auth.currentUser;
 
@@ -29,6 +29,7 @@ const Header = () => {
 				navigate("/");
 			}
 		});
+		return () => unSubscribe();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
