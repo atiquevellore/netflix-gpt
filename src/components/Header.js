@@ -5,6 +5,7 @@ import { auth } from "../utils/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { addUser, removeUser } from "../store/userSlice";
+import { APP_LOGO_URL } from "../utils/constants";
 
 const Header = () => {
 	const navigate = useNavigate();
@@ -35,11 +36,7 @@ const Header = () => {
 
 	return (
 		<div className="absolute   z-10  w-screen  px-8 py-2 bg-gradient-to-b  from-black ">
-			<img
-				className=" w-32 "
-				src="https://1000logos.net/wp-content/uploads/2017/05/Netflix-Logo.png"
-				alt="logo"
-			/>
+			<img className=" w-32 " src={APP_LOGO_URL} alt="logo" />
 		</div>
 	);
 };

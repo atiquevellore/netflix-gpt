@@ -7,6 +7,7 @@ import {
 	updateProfile,
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
+import { HOMEPAGE_BG_URL, USER_PROFILE_URL } from "../utils/constants";
 
 const Login = () => {
 	const [isSign, SetIsSign] = useState(true);
@@ -40,7 +41,7 @@ const Login = () => {
 				.then(() => {
 					updateProfile(auth.currentUser, {
 						displayName: FullName.current.value,
-						photoURL: "https://picsum.photos/200/300",
+						photoURL: USER_PROFILE_URL,
 					})
 						.then(() => {})
 						.catch((error) => {});
@@ -64,11 +65,7 @@ const Login = () => {
 		<>
 			<Header />
 			<div className="absolute ">
-				<img
-					className=" bg-fixed"
-					alt="bg"
-					src="https://assets.nflxext.com/ffe/siteui/vlv3/ff5587c5-1052-47cf-974b-a97e3b4f0656/065df910-dec3-46ae-afa8-7ad2b52dce40/IN-en-20240506-popsignuptwoweeks-perspective_alpha_website_medium.jpg"
-				/>
+				<img className=" bg-fixed" alt="bg" src={HOMEPAGE_BG_URL} />
 			</div>
 			<form
 				className="  my-36 mx-auto right-0 left-0  w-3/12 absolute bg-black  text-white bg-opacity-80 rounded-lg"
