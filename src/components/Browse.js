@@ -1,35 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "./Header";
-import { signOut } from "firebase/auth";
-import { auth } from "../utils/firebase";
-import { useSelector } from "react-redux";
+import { API_OPTIONS, NOW_PLAYING_MOVIES_URL } from "../utils/constants";
+import { useDispatch } from "react-redux";
+import { addNowPlayingMovies } from "../store/Slices/moviesSlice";
 
 const Browse = () => {
-	const user = useSelector((store) => store.user);
-
-	const handleSignOut = () => {
-		signOut(auth)
-			.then(() => {})
-			.catch((error) => {});
+	const dispatch = useDispatch();
+	const getNowPlayingMovies = async () => {
+		const data = await fetch(NOW_PLAYING_MOVIES_URL, API_OPTIONS);
+		const json = await data.json();
+		console.log(json.results);
+		dispatch(addNowPlayingMovies(json.results));
 	};
 
+	useEffect(() => {
+		getNowPlayingMovies();
+	}, []);
 	return (
 		<div className=" flex justify-between">
 			<div>
 				<Header />
 			</div>
-			{user && (
-				<div className=" flex z-10 ">
-					<img
-						src={user?.photoURL}
-						alt="user icon"
-						className="    rounded-full w-16 py-5"
-					/>
-					<button className=" p-4  font-bold  " onClick={handleSignOut}>
-						SignOut
-					</button>
-				</div>
-			)}
 		</div>
 	);
 };
